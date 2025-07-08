@@ -68,18 +68,17 @@ class UserRegister(BaseModel):
     name: str
     gamer_key: str
     phone: str
-    mobile: str
     password: str
     role: str  # boss or player
 
 class UserLogin(BaseModel):
-    mobile: str
+    phone: str
     password: str
 
 @app.post("/auth/register")
 async def register(user: UserRegister):
-    if await db.users.find_one({"mobile": user.mobile}):
-        raise HTTPException(status_code=400, detail="Mobile already registered")
+    if await db.users.find_one({"phone": user.phone}):
+        raise HTTPException(status_code=400, detail="Phone already registered")
     hashed = hash_password(user.password)
     data = user.dict()
     data["password"] = hashed
@@ -89,7 +88,7 @@ async def register(user: UserRegister):
 
 @app.post("/auth/login")
 async def login(data: UserLogin):
-    user = await db.users.find_one({"mobile": data.mobile})
+    user = await db.users.find_one({"phone": data.phone})
     if not user or not verify_password(data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     token = create_access_token({"sub": str(user["_id"]), "role": user["role"]})
