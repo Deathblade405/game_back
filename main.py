@@ -98,7 +98,7 @@ async def login(data: UserLogin):
         "user": {
             "id": str(user["_id"]), "name": user["name"],
             "gamer_key": user["gamer_key"], "phone": user["phone"],
-            "mobile": user["mobile"], "role": user["role"]
+             "role": user["role"]
         }
     }
 
