@@ -11,11 +11,20 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
 
-# Enable CORS for React
+app = FastAPI()
+
+# Allow Vercel frontend and local dev
+origins = [
+    "https://game-front-pedx.vercel.app",  # your deployed frontend
+    "http://localhost:3000"                # optional: local frontend
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://game-front-indol.vercel.app/"],
+    allow_origins=origins,      # or ["*"] for testing only
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
