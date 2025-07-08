@@ -47,7 +47,7 @@ class Attempt(BaseModel):
 
 # ---------------- Routes ----------------
 
-@app.post("/games/")
+@app.post("/games")
 async def create_game(game: GameCreate):
     print("Received Game:", game)
     try:
